@@ -6,7 +6,7 @@ const requestLogger = (request, response, next) => {
 	logger.info(`method: ${request.method}`)
 	logger.info(`path: ${request.path}`)
 	logger.info(`body: ${request.body}`)
-	logger.info(`------`)
+	logger.info('------')
 	next()
 }
 

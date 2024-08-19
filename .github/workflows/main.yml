@@ -1,0 +1,62 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+jobs:
+  prepare-workflow:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Fetch repository
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+          with:
+            node-version: "20"
+  install-dependencies:
+    needs: [prepare-workflow]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: backend
+        run: npm install
+      - name: frontend
+        working-directory: ./client
+        run: npm install
+  lint:
+    needs: [install-dependencies]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: backend
+        run: npm run eslint
+      - name: frontend
+        working-directory: ./client
+        run: npm run lint
+  build:
+    needs: [install-dependencies]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: frontend
+        working-directory: ./client
+        run: npm run build
+  unit-test:
+    needs: [build, lint]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: backend
+        run: npm run test
+      - name: frontend
+        working-directory: ./client
+        run: npm run test
+  e2e-test:
+    needs: [build, lint]
+    runs-on: ubuntu-20.04
+    steps:
+      uses: cypress-io/github-action@v6
+      with:
+        start: npm run start-prod
+        wait-on: http://localhost:5000

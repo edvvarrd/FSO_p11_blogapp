@@ -15,8 +15,8 @@ beforeEach(async () => {
 	})
 })
 
-describe(`new user`, () => {
-	test(`can be added`, async () => {
+describe('new user', () => {
+	test('can be added', async () => {
 		const usersAtStart = await helper.usersInDb()
 		const testUser = {
 			username: 'testusername2',
@@ -35,7 +35,7 @@ describe(`new user`, () => {
 		const usersAtEnd = await helper.usersInDb()
 		expect(usersAtEnd.length).toBe(usersAtStart.length + 1)
 	})
-	test(`can't be added if username is not unique`, async () => {
+	test('can\'t be added if username is not unique', async () => {
 		const testUser = {
 			username: 'testusername',
 			name: 'test',
@@ -50,7 +50,7 @@ describe(`new user`, () => {
 			'User validation failed: username: Error, expected `username` to be unique.'
 		)
 	})
-	test(`can't be added if username is too short`, async () => {
+	test('can\'t be added if username is too short', async () => {
 		const testUser = {
 			username: 'te',
 			name: 'test',
@@ -65,7 +65,7 @@ describe(`new user`, () => {
 			'User validation failed: username: username is too short.'
 		)
 	})
-	test(`can't be added if username is missing`, async () => {
+	test('can\'t be added if username is missing', async () => {
 		const testUser = {
 			username: '',
 			name: 'test',
@@ -80,7 +80,7 @@ describe(`new user`, () => {
 			'User validation failed: username: username is required.'
 		)
 	})
-	test(`can't be added if password is too short`, async () => {
+	test('can\'t be added if password is too short', async () => {
 		const testUser = {
 			username: 'testusername2',
 			name: 'test',
@@ -95,7 +95,7 @@ describe(`new user`, () => {
 			'User validation failed: password: password is too short.'
 		)
 	})
-	test(`can't be added if password is missing`, async () => {
+	test('can\'t be added if password is missing', async () => {
 		const testUser = {
 			username: 'testusername2',
 			name: 'test',

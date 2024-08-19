@@ -40,7 +40,7 @@ blogsRouter.delete(
 		} else if (request.user.id !== blog.user.toString()) {
 			return response
 				.status(401)
-				.json({ error: `to delete a blog, u have to be it's creator.` })
+				.json({ error: 'to delete a blog, u have to be it\'s creator.' })
 		} else {
 			await Blog.findByIdAndRemove(blog.id)
 			request.user.blogs = request.user.blogs.filter(

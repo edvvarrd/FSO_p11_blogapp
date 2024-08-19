@@ -7,7 +7,8 @@
 		"start": "cross-env NODE_ENV=production node index.js",
 		"start:dev": "cross-env NODE_ENV=development nodemon index.js",
 		"start:test": "cross-env NODE_ENV=test node index.js",
-		"test": "cross-env NODE_ENV=test jest --verbose --runInBand"
+		"test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+		"eslint": "eslint ./**/*.js"
 	},
 	"author": "",
 	"license": "ISC",
@@ -21,7 +22,10 @@
 		"jsonwebtoken": "^9.0.2",
 		"lodash": "^4.17.21",
 		"mongoose": "^7.4.5",
-		"mongoose-unique-validator": "^4.0.0"
+		"mongoose-unique-validator": "^4.0.0",
+		"eslint": "^6.8.0",
+		"eslint-plugin-jest": "^23.11.0",
+		"eslint-plugin-react": "^7.35.0"
 	},
 	"devDependencies": {
 		"jest": "^29.6.4",
@@ -30,6 +34,9 @@
 	},
 	"jest": {
 		"testEnvironment": "node",
-		"globalTeardown": "./tests/teardown.js"
+		"globalTeardown": "./tests/teardown.js",
+		"testPathIgnorePatterns": [
+			"<rootDir>/client/"
+		]
 	}
 }

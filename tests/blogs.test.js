@@ -19,16 +19,16 @@ beforeEach(async () => {
 	await Blog.insertMany(blogsArray)
 })
 
-describe(`All blogs in the database`, () => {
-	test(`are returned as a JSON files and have a proper amount`, async () => {
+describe('All blogs in the database', () => {
+	test('are returned as a JSON files and have a proper amount', async () => {
 		const blogs = await api
-			.get(`/api/blogs`)
+			.get('/api/blogs')
 			.expect(200)
 			.expect('Content-Type', /application\/json/)
 		expect(blogs.body).toHaveLength(helper.initialBlogs.length)
 	})
 
-	test(`are properly marked by "id"`, async () => {
+	test('are properly marked by "id"', async () => {
 		const blogsInDb = await helper.blogsInDb()
 		const resultBlog = await api
 			.get(`/api/blogs/${blogsInDb[0].id}`)
@@ -36,7 +36,7 @@ describe(`All blogs in the database`, () => {
 		expect(resultBlog.body.id).toBeDefined()
 	})
 })
-describe(`A single blog`, () => {
+describe('A single blog', () => {
 	let token
 	beforeEach(async () => {
 		const loggedUser = await api.post('/api/login').send({
@@ -45,7 +45,7 @@ describe(`A single blog`, () => {
 		})
 		token = loggedUser.body.token
 	})
-	test(`can be succesfully and properly posted`, async () => {
+	test('can be succesfully and properly posted', async () => {
 		const testBlog = {
 			title: 'test',
 			author: 'test',
@@ -55,7 +55,7 @@ describe(`A single blog`, () => {
 		const response = await api
 			.post('/api/blogs')
 			.send(testBlog)
-			.set(`Authorization`, `Bearer ${token}`)
+			.set('Authorization', `Bearer ${token}`)
 			.expect(201)
 			.expect('Content-Type', /application\/json/)
 		expect(response.body).toMatchObject(testBlog)
@@ -63,7 +63,7 @@ describe(`A single blog`, () => {
 		expect(blogsInDb).toHaveLength(helper.initialBlogs.length + 1)
 	})
 
-	test(`have a default value of likes as 0 if it's missing in the request`, async () => {
+	test('have a default value of likes as 0 if it\'s missing in the request', async () => {
 		const testBlog = {
 			title: 'test',
 			author: 'test',
@@ -72,30 +72,30 @@ describe(`A single blog`, () => {
 		const response = await api
 			.post('/api/blogs')
 			.send(testBlog)
-			.set(`Authorization`, `Bearer ${token}`)
+			.set('Authorization', `Bearer ${token}`)
 			.expect(201)
 			.expect('Content-Type', /application\/json/)
 		expect(response.body).toHaveProperty('likes', 0)
 	})
-	test(`won't be added if title or url is missing`, async () => {
+	test('won\'t be added if title or url is missing', async () => {
 		const testBlog = {
 			author: 'test',
 		}
 		await api
 			.post('/api/blogs')
 			.send(testBlog)
-			.set(`Authorization`, `Bearer ${token}`)
+			.set('Authorization', `Bearer ${token}`)
 			.expect(400)
 	})
 
-	test(`can be deleted from the database`, async () => {
+	test('can be deleted from the database', async () => {
 		const blogsInDb = await helper.blogsInDb()
 		await api
 			.delete(`/api/blogs/${blogsInDb[0].id}`)
-			.set(`Authorization`, `Bearer ${token}`)
+			.set('Authorization', `Bearer ${token}`)
 			.expect(204)
 	})
-	test(`can be updated in the database`, async () => {
+	test('can be updated in the database', async () => {
 		const testBlog = {
 			likes: 30,
 		}
@@ -105,12 +105,13 @@ describe(`A single blog`, () => {
 			.send(testBlog)
 		expect(response.body).toMatchObject(testBlog)
 	})
-	test(`won't be added with proper status if token is wrong / no token`, async () => {
+	test('won\'t be added with proper status if token is wrong / no token', async () => {
 		const testBlog = {
 			title: 'test',
 			author: 'test',
 			url: 'test.com',
 		}
+		/* eslint-disable no-unused-vars */
 		const response = await api.post('/api/blogs').send(testBlog).expect(401)
 	})
 })
