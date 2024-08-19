@@ -23,12 +23,12 @@
 		"lodash": "^4.17.21",
 		"mongoose": "^7.4.5",
 		"mongoose-unique-validator": "^4.0.0",
-		"eslint": "latest",
-		"eslint-plugin-cypress": "latest",
-		"eslint-plugin-jest": "latest",
-		"eslint-plugin-react": "latest",
-		"eslint-plugin-react-hooks": "latest",
-		"eslint-plugin-react-refresh": "latest"
+		"eslint": "^8.45.0",
+		"eslint-plugin-cypress": "^2.15.1",
+		"eslint-plugin-jest": "^27.6.0",
+		"eslint-plugin-react": "^7.32.2",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"eslint-plugin-react-refresh": "^0.4.3"
 	},
 	"devDependencies": {
 		"jest": "^29.6.4",
@@ -38,6 +38,7 @@
 	"jest": {
 		"testEnvironment": "node",
 		"globalTeardown": "./tests/teardown.js",
+		"testTimeout": 15000,
 		"testPathIgnorePatterns": [
 			"<rootDir>/client/"
 		]
