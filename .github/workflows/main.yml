@@ -11,13 +11,23 @@ on:
 jobs:
   deployment-pipeline:
     runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+        mongodb-version: ['6.0', '7.0', '8.0']
     steps:
       - name: Fetch repository
         uses: actions/checkout@v4
-      - name: Setup Node
+      - name: Setup Node ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: ${{ matrix.node-version }}
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.11.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+          mongodb-replica-set: test-rs
+          mongodb-port: 42069
       - name: Install dependencies for backend
         run: npm install
       - name: Install dependencies for frontend
@@ -26,11 +36,21 @@ jobs:
       - name: Make .env file
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_DEBUG: false
           envkey_MONGODB_URI: ${{ secrets.MONGODB_URI }}
           envkey_MONGODB_URI_TEST: ${{ secrets.MONGODB_URI_TEST }}
           envkey_SECRET: ${{ secrets.SECRET }}
           file_name: .env
+      - name: Get the public IP of this runner
+        id: get_gh_runner_ip
+        shell: bash
+        run: |
+          echo "ip_address=$(curl https://checkip.amazonaws.com)" >> "$GITHUB_OUTPUT"
+      - name: Setup MongoDB Atlas cli
+        uses: mongodb/atlas-github-action@v0.2.0
+      - name: Add runner IP to MongoDB access list
+        shell: bash
+        run: |
+          atlas accessLists create ${{ steps.get_gh_runner_ip.outputs.ip_address }} --type ipAddress --projectId ${{ env.MONGODB_ATLAS_PROJECT_ID }} --comment  "Temporary access for GH Action"
       - name: Lint
         run: npm run eslint
       - name: Build client
