@@ -1,12 +1,12 @@
 describe('Blog app', function () {
 	beforeEach(function () {
-		cy.request('POST', 'http://localhost:3003/api/testing/reset')
-		cy.request('POST', 'http://localhost:3003/api/users', {
+		cy.request('POST', 'http://localhost:5000/api/testing/reset')
+		cy.request('POST', 'http://localhost:5000/api/users', {
 			username: 'testcy',
 			name: 'testcy',
 			password: 'testcy',
 		})
-		cy.visit('http://localhost:5173')
+		cy.visit('http://localhost:5000')
 	})
 	it('Login form is shown', function () {
 		cy.contains('log in to application').should('be.visible')
@@ -62,7 +62,7 @@ describe('Blog app', function () {
 						cy.contains('show').click()
 						cy.contains('like').click()
 					})
-					.should('contain', 'likes: 1')
+				cy.get('.blog').should('contain', 'likes: 1')
 			})
 			it('Can be deleted', function () {
 				cy.get('.blog').within(() => {
@@ -82,7 +82,7 @@ describe('Blog app', function () {
 
 				cy.contains('logout').click()
 
-				cy.request('POST', 'http://localhost:3003/api/users', {
+				cy.request('POST', 'http://localhost:5000/api/users', {
 					username: 'testcy2',
 					name: 'testcy2',
 					password: 'testcy2',
