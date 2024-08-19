@@ -24,13 +24,13 @@ jobs:
         working-directory: ./client
         run: npm install
       - name: Make .env file
-      uses: SpicyPizza/create-envfile@v1
-      with:
-        envkey_DEBUG: false
-        envkey_MONGODB_URI: ${{ secrets.MONGODB_URI }}
-        envkey_MONGODB_URI_TEST: ${{ secrets.MONGODB_URI_TEST }}
-        envkey_SECRET: ${{ secrets.SECRET }}
-        file_name: .env
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_DEBUG: false
+          envkey_MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          envkey_MONGODB_URI_TEST: ${{ secrets.MONGODB_URI_TEST }}
+          envkey_SECRET: ${{ secrets.SECRET }}
+          file_name: .env
       - name: Lint
         run: npm run eslint
       - name: Build client
