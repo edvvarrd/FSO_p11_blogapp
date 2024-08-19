@@ -11,6 +11,9 @@ on:
 jobs:
   deployment-pipeline:
     runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        mongodb-version: ['6.0', '7.0', '8.0']
     steps:
       - name: Fetch repository
         uses: actions/checkout@v4
@@ -21,7 +24,7 @@ jobs:
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.11.0
         with:
-          mongodb-version: 8.0
+          mongodb-version: ${{ matrix.mongodb-version }}
           mongodb-replica-set: test-rs
           mongodb-port: 42069
       - name: Install dependencies for backend
