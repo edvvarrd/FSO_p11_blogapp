@@ -24,6 +24,9 @@ jobs:
           mongodb-version: 6
           mongodb-replica-set: test-rs
           mongodb-port: 42069
+          mongodb-username: ${{ secrets.MONGODB_USER }}
+          mongodb-password: ${{ secrets.PASS }}
+          mongodb-db: FullStackOpen2
       - name: Install dependencies for backend
         run: npm install
       - name: Install dependencies for frontend
