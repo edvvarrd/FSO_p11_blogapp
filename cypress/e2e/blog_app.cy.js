@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 describe('Blog app', function () {
 	beforeEach(function () {
 		cy.request('POST', 'http://localhost:5000/api/testing/reset')
