@@ -11,6 +11,11 @@ on:
 jobs:
   deployment-pipeline:
     runs-on: ubuntu-20.04
+    env: 
+      SKIP_PREFLIGHT_CHECK: true
+      MONGO_URI: ${{ secrets.MONGODB_URI }}
+      TEST_MONGO_URI: ${{ secrets.MONGODB_URI_TEST }}
+      SECRET: ${{ secrets.SECRET }}
     steps:
       - name: Fetch repository
         uses: actions/checkout@v4
@@ -27,13 +32,6 @@ jobs:
       - name: Install dependencies for frontend
         working-directory: ./client
         run: npm install
-      - name: Make .env file
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_MONGODB_URI: ${{ secrets.MONGODB_URI }}
-          envkey_MONGODB_URI_TEST: ${{ secrets.MONGODB_URI_TEST }}
-          envkey_SECRET: ${{ secrets.SECRET }}
-          file_name: .env
       - name: Lint
         run: npm run eslint
       - name: Build client
