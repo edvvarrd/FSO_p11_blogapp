@@ -12,10 +12,10 @@ jobs:
   deployment-pipeline:
     runs-on: ubuntu-20.04
     env:
-      SKIP_PREFLIGHT_CHECK: true
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
       MONGODB_URI_TEST: ${{ secrets.MONGODB_URI_TEST }}
       SECRET: ${{ secrets.SECRET }}
+      PORT: ${{ secrets.PORT }}
     steps:
       - name: Fetch repository
         uses: actions/checkout@v4
