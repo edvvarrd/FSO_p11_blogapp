@@ -18,15 +18,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.11.0
-        with:
-          mongodb-version: 6
-          mongodb-replica-set: test-rs
-          mongodb-port: 42069
-          mongodb-username: ${{ secrets.MONGODB_USER }}
-          mongodb-password: ${{ secrets.MONGODB_PASS }}
-          mongodb-db: FullStackOpen2
       - name: Install dependencies for backend
         run: npm install
       - name: Install dependencies for frontend
@@ -39,17 +30,6 @@ jobs:
           envkey_MONGODB_URI_TEST: ${{ secrets.MONGODB_URI_TEST }}
           envkey_SECRET: ${{ secrets.SECRET }}
           file_name: .env
-      - name: Get the public IP of this runner
-        id: get_gh_runner_ip
-        shell: bash
-        run: |
-          echo "ip_address=$(curl https://checkip.amazonaws.com)" >> "$GITHUB_OUTPUT"
-      - name: Setup MongoDB Atlas cli
-        uses: mongodb/atlas-github-action@v0.2.0
-      - name: Add runner IP to MongoDB access list
-        shell: bash
-        run: |
-          atlas accessLists create ${{ steps.get_gh_runner_ip.outputs.ip_address }} --type ipAddress --projectId ${{ secrets.MONGODB_ATLAS_PROJECT_ID }}
       - name: Lint
         run: npm run eslint
       - name: Build client
@@ -65,7 +45,3 @@ jobs:
         with:
           start: npm run start:test
           wait-on: http://localhost:5000
-      - name: Remove GH runner IP from MongDB access list
-        shell: bash
-        run: |
-          atlas accessLists delete ${{ steps.get_gh_runner_ip.outputs.ip_address }} --projectId ${{ env.MONGODB_ATLAS_PROJECT_ID }} --force
