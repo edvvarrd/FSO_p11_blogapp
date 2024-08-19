@@ -12,9 +12,8 @@ jobs:
   deployment-pipeline:
     runs-on: ubuntu-20.04
     env: 
-      SKIP_PREFLIGHT_CHECK: true
-      MONGO_URI: ${{ secrets.MONGODB_URI }}
-      TEST_MONGO_URI: ${{ secrets.MONGODB_URI_TEST }}
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      MONGODB_URI_TEST: ${{ secrets.MONGODB_URI_TEST }}
       SECRET: ${{ secrets.SECRET }}
     steps:
       - name: Fetch repository
