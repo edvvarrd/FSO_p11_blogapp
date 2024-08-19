@@ -23,12 +23,9 @@ jobs:
       - name: Install dependencies for frontend
         working-directory: ./client
         run: npm install
-      - name: Lint backend
+      - name: Lint
         run: npm run eslint
-      - name: Lint frontend
-        working-directory: ./client
-        run: npm run lint
-      - name: Build frontend
+      - name: Build client
         working-directory: ./client
         run: npm run build
       - name: Unit test backend
