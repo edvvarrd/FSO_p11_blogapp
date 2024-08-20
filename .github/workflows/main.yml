@@ -46,3 +46,15 @@ jobs:
       - name: Deploy
         if: ${{ github.event_name == 'push' }}
         run: curl https://api.render.com/deploy/${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+      - name: Success
+        if: ${{ github.event_name == 'push' && success() }}
+        uses: discord-actions/message@v2
+        with:
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          message: "Deployment to ${{ github.repository }} by ${{ github.triggering_actor }} succeeded!"
+      - name: Failure
+        if: failure()
+        uses: discord-actions/message@v2
+        with:
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          message: "Deployment to ${{ github.repository }} by ${{ github.triggering_actor }} failed! Commit: [${{ github.sha }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
