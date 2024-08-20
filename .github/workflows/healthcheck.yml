@@ -1,0 +1,16 @@
+name: Healthcheck
+
+on:
+  schedule:
+    - cron: '0 10 * * *'
+
+jobs:
+  healtcheck:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Check the deployed service URL
+      uses: jtalk/url-health-check-action@v4
+      with:
+        url: https://fso-p11-blogapp.onrender.com/
+        max-attempts: 3
+        retry-delay: 30s

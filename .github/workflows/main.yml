@@ -53,8 +53,20 @@ jobs:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           message: "Deployment to ${{ github.repository }} by ${{ github.triggering_actor }} succeeded!"
       - name: Failure
-        if: failure()
+        if: ${{ github.event_name == 'push' && failure() }}
         uses: discord-actions/message@v2
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           message: "Deployment to ${{ github.repository }} by ${{ github.triggering_actor }} failed! Commit: [${{ github.sha }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
+  tag_release:
+    needs: [deployment-pipeline]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump version
+        if: ${{ github.event_name == 'push' && !(contains( join( toJson(github.event.commits.*.message) ), '#skip')) }}
+        uses: anothrNick/github-tag-action@1.70.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+          RELEASE_BRANCHES: main
