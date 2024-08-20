@@ -1,11 +1,6 @@
-## Start the application
+## FullStackOpen Exercises 11.19-11.21
 
-To start this app, run in application's directory:
-
-```bash
-$ npm install
-$ npm run dev
-```
+Pokedex project from Part 11: [Repository](https://github.com/edvvarrd/full-stack-open-pokedex)
 
 To properly run an application, it needs to provide .env file in root directory - that contains variables:
 

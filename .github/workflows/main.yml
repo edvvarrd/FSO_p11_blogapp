@@ -51,13 +51,13 @@ jobs:
         uses: discord-actions/message@v2
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          message: "Deployment to ${{ github.repository }} by ${{ github.triggering_actor }} succeeded!"
+          message: "Deployment of ${{ github.repository }} by ${{ github.triggering_actor }} succeeded!"
       - name: Failure
         if: ${{ github.event_name == 'push' && failure() }}
         uses: discord-actions/message@v2
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          message: "Deployment to ${{ github.repository }} by ${{ github.triggering_actor }} failed! Commit: [${{ github.sha }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
+          message: "Deployment of ${{ github.repository }} by ${{ github.triggering_actor }} failed! Commit: [${{ github.sha }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
   tag_release:
     needs: [deployment-pipeline]
     runs-on: ubuntu-20.04
