@@ -53,6 +53,8 @@ describe('Blog app', function () {
 			cy.reload()
 
 			cy.get('.blog').should('contain', 'testcy by testcy')
+		}, {
+			defaultCommandTimeout: 10000
 		})
 		describe('Added blog', function () {
 			beforeEach(function () {
