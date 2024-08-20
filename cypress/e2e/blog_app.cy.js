@@ -50,8 +50,6 @@ describe('Blog app', function () {
 			cy.get('#url').type('testcy')
 			cy.get('#createBlog').click()
 
-			cy.reload()
-
 			cy.get('.blog').should('contain', 'testcy by testcy')
 		})
 		describe('Added blog', function () {
