@@ -1,4 +1,4 @@
-## FullStackOpen Exercises 11.19-11.21
+# FullStackOpen Exercises 11.19-11.21
 
 Pokedex project from Part 11: [Repository](https://github.com/edvvarrd/full-stack-open-pokedex)
 
